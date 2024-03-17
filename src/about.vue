@@ -1,7 +1,11 @@
-<script>
-import about from './about.vue';
+<template>
+    <div class="about">
+        <button @click="getWangyi">获取热门歌单</button>
+    </div>
+</template>
 
-import { axios } from "./plugins/axios";
+<script>
+        import { axios } from "./plugins/axios";
 
     export default {
         methods: {
@@ -19,17 +23,5 @@ import { axios } from "./plugins/axios";
             }
         }
     }
+
 </script>
-
-<template>
-    <div class="app">
-        <h1>helo</h1>
-    hello
-    <button @click="getWangyi">获取热门歌单</button>
-
-    </div>
-</template>
-
-<style scoped>
-
-</style>
