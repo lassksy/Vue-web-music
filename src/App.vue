@@ -1,35 +1,41 @@
-<script>
-import about from './about.vue';
+<script setup>
+    import Header from './components/Header.vue';
 
-import { axios } from "./plugins/axios";
-
-    export default {
-        methods: {
-            getWangyi () {
-                axios({
-                    url: '/top/playlist/highquality?before=1503639064232&limit=3',
-                    method: 'post'
-                })
-                .then(res => {
-                    console.log("我拿到的数据" , res.data.tags)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-            }
-        }
-    }
 </script>
 
 <template>
-    <div class="app">
-        <h1>helo</h1>
-    hello
-    <button @click="getWangyi">获取热门歌单</button>
-
+  <div class="common-layout">
+        <el-container>
+            <el-header>
+                <header-com></header-com>
+            </el-header>
+            <el-container>
+                <el-aside width="200px">
+                    <aside-com></aside-com>
+                </el-aside>
+                <el-main>
+                    <router-view></router-view>
+                </el-main>
+            </el-container>
+        </el-container>
     </div>
 </template>
 
 <style scoped>
+      .el-container {
+        height: 100vh;
+    }
 
+    .el-aside {
+        height: 100%;
+        overflow: auto;
+    }
+
+    .el-header {
+        padding: 0;
+        background-color: #eee;
+    }
+    .el-main {
+        background-color: #fff;
+    }
 </style>
