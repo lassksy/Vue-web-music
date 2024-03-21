@@ -1,8 +1,10 @@
 <script lang="ts" setup>
       import { RouterView , RouterLink } from 'vue-router';
+      import Header from './components/Header.vue';
 </script>
 
 <template>
+    <Header></Header>
     <div class="main">
       <div class="navigate">
       <RouterLink class="router-link" to="/home">首页</RouterLink>
@@ -15,14 +17,14 @@
     <div class="main-content">
         <RouterView></RouterView>
     </div>
-    </div>
+    </div>    
     
 </template>
 
 <style scoped>
       
       .navigate {
-        position: fixed; /* 固定在屏幕上 */
+        float: left; /* 固定在屏幕上 */
         left: 0;
         top: 0;
         bottom: 0; /* 填充整个屏幕 */

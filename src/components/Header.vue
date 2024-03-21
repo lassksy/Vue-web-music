@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="search-box">搜索</div>
+            <input type="search"  class="search-text" placeholder="搜索">
     </div>
 </template>
 
@@ -10,13 +10,21 @@
 
 
 <style scoped>
-    .hader {
+    .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 4rem;
         background-color: aliceblue;
+        margin-bottom: -20px !important;
     } 
+    
+    .search-text {
+        border-radius: 10px;
+        height: 2rem;
+        width: 80%;
 
-    .search-box  {
-        border-radius: 25px;
-        background-color: white;
     }
 
 </style>
