@@ -3,11 +3,17 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../pages/Home.vue";
 import Top from "../pages/Top.vue";
 import Playlist from "../pages/Playlist.vue";
+import LoginView from "../view/LoginView.vue";
 
 //创建路由器
 const router = createRouter({
     history: createWebHistory(),
     routes: [
+        {
+            name: 'login',
+            path: '/login',
+            component: LoginView
+        },
         {
             name: 'home',
             path: '/home',
