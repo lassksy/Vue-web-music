@@ -1,6 +1,7 @@
 <script lang="ts" setup>
       import { RouterView , RouterLink } from 'vue-router';  
       import Header from './components/Header.vue';
+      import Aside from './components/Aside.vue';
 </script>
 
 <template>
@@ -8,7 +9,7 @@
     <el-container>
       <el-header><Header/></el-header>
       <el-container>
-        <el-aside width="200px">Aside</el-aside>
+        <el-aside width="100px"><Aside></Aside></el-aside>
         <el-container>
           <el-main>
             <RouterView></RouterView>
