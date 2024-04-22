@@ -1,16 +1,37 @@
 <template>
+    <div id="aside">
+        <el-row class="tac">
+    <el-col :span="12">
+      <el-menu
+        default-active=""      >
+        <el-menu-item index="1" :index="/home" >
+          <template #title>
+            <el-icon><icon-menu /></el-icon>
+            <span>首页</span>
+          </template>
+        </el-menu-item>
+        <el-menu-item index="2">
+          <el-icon><icon-menu /></el-icon>
+          <span>歌单</span>
+        </el-menu-item>
+        <el-menu-item index="3" >
+            <el-icon><icon-menu /></el-icon>
+          <span>排行榜</span>
+        </el-menu-item>
+      </el-menu>
+    </el-col>
+ </el-row>
+    </div>
  
 </template>
 
 <script setup lang="ts">
+
 </script>
 
 
-<style scoped>
-    .aside-list {
-        height: calc(100vh- 60px);
-       
-      
-        box-shadow: var(--el-box-shadow-light);
+<style lang="scss" scoped>
+    #aside {
+        width: 30%;
     }
 </style>

@@ -4,6 +4,7 @@ import Home from "../pages/Home.vue";
 import Top from "../pages/Top.vue";
 import Playlist from "../pages/Playlist.vue";
 import LoginView from "../view/LoginView.vue";
+import IndexView from "../view/IndexView.vue";
 
 //创建路由器
 const router = createRouter({
@@ -15,20 +16,36 @@ const router = createRouter({
             component: LoginView
         },
         {
-            name: 'home',
-            path: '/home',
-            component: Home
+            name: 'index',
+            path: '/index',
+            component: IndexView,
+            children: [
+                {
+                    name: 'home',
+                    path: '/home',
+                    component: Home
+                },
+
+                {
+                    name: 'Top',
+                    path: '/Top',
+                    component: Top
+                },
+
+                {
+                    name: 'playlist',
+                    path: '/playlist',
+                    component: Playlist
+                }
+                     
+            ]
         },
         {
-            name: 'Top',
-            path: '/Top',
-            component: Top
+            path: "/",
+            redirect: 'index'
         },
-        {
-            name: 'playlist',
-            path: '/playlist',
-            component: Playlist
-        }
+       
+        
 
     ]
 })
