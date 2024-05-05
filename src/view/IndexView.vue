@@ -3,12 +3,9 @@
       <Header/>
       <el-container>
         <Aside></Aside>
-          <el-main>
+          <el-main class="el-mian">
             <RouterView></RouterView>
           </el-main>
-        
-
-
       </el-container>
           <el-footer>Footer</el-footer>
         
@@ -17,5 +14,11 @@
 
 <script setup lang="ts"
 >
+
+
 </script>
+
+<style scoped>
+
+</style>
 

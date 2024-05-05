@@ -1,7 +1,7 @@
 <template>
     <div id="aside">
         <el-row class="tac">
-    <el-col :span="12">
+    <el-col :span="30">
       <el-menu router>
         <el-menu-item index="home">
           <template #title>
@@ -30,8 +30,8 @@
 
 
 <style lang="scss" scoped>
-  #aside {
-    display: block;
-    width: 30%;
-  }
+.el-menu {
+  border-right: 1 !important;
+  text-align: center !important;
+}
 </style>
