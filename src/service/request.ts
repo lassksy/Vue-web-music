@@ -1,19 +1,19 @@
 import axios from 'axios';
-// create axios instance
+// 创建axios实例
 const instance = axios.create({
   baseURL: 'https://netease-cloud-music-api-backup-eight.vercel.app/',
   method: 'get',
   withCredentials: true
 });
 
-//add request interceptor
+//添加请求拦截器
 instance.interceptors.request.use((config) => {
   return config;
 }, err => {
   return Promise.reject(err);
 });
 
-//response interceptor
+//响应拦截器
 instance.interceptors.response.use((data) => {
   return data;
 }, err => {
