@@ -56,7 +56,7 @@ import { Search  , HomeFilled , View , Histogram} from '@element-plus/icons-vue'
         text-align: center;
         align-items: center;
         font-size: 30px;
-        margin:  10px 20px 20px;
+        margin:  20px 40px 20px;
         .icon {
           width: 30px;
           height: 30px;

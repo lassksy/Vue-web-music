@@ -31,9 +31,8 @@
 
 <style scoped>
   .main {
-    height: 100vh;
-    width: 100vh;
-    background-color: red;
+    border: 0.5px solid rgb(198, 198, 198);
+    background-color: hsl(0deg 0% 100%);
   }
 
 .el-carousel__item h3 {

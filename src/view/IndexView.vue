@@ -5,7 +5,7 @@
         <el-container>
           <el-header>           <Header/>
           </el-header>
-          <el-main class="el-mian">
+          <el-main>
             <RouterView></RouterView>
           </el-main>
         </el-container>
@@ -29,7 +29,12 @@
       flex-direction: column;
       height: 100vh; /* 占据整个视口高度 */
 
-
+    }
+    .el-header {
+      padding: 0;
+    }
+    .el-main {
+      padding: 0;
     }
 </style>
 
