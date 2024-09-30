@@ -1,6 +1,6 @@
 <template>
-    <di  class="main">
-      <div  class="music-controls">
+    <div  class="main">
+      <div  v-if="isVisible" class="music-controls">
         <div  class="button-c shuffle">
           <button   class="button-control" style="width: 40px; height: 40px;">
             <amp-icon class="icon" role="presentation" aria-hidden="true" innerhtml="<svg width=&quot;32&quot; height=&quot;28&quot; viewbox=&quot;0 0 32 28&quot; xmlns=&quot;http://www.w3.org/2000/svg&quot;><path d=&quot;M20.767 20.44a.81.81 0 00.49-.183l2.58-2.174c.316-.266.316-.681 0-.955l-2.58-2.183a.81.81 0 00-.49-.183c-.415 0-.673.258-.673.673v1.245h-1.162c-.739 0-1.195-.233-1.718-.847l-1.527-1.801 1.527-1.81c.54-.63.946-.847 1.677-.847h1.203v1.279c0 .407.258.664.673.664a.801.801 0 00.49-.174l2.58-2.175c.316-.266.316-.69 0-.955l-2.58-2.183a.761.761 0 00-.49-.183c-.415 0-.673.258-.673.665v1.386h-1.212c-1.228 0-1.992.34-2.863 1.386l-1.412 1.668-1.469-1.751c-.805-.946-1.569-1.303-2.747-1.303H8.896c-.53 0-.896.348-.896.838s.365.838.896.838h1.437c.697 0 1.162.225 1.685.847l1.519 1.801-1.52 1.81c-.53.623-.954.847-1.643.847H8.896c-.53 0-.896.348-.896.838s.365.838.896.838h1.536c1.179 0 1.901-.356 2.706-1.303l1.478-1.751 1.444 1.718c.822.98 1.627 1.336 2.822 1.336h1.212v1.412c0 .415.258.672.673.672z&quot;/></svg>" name="player-shuffle" hydrated=""><svg width="32" height="28" viewBox="0 0 32 28" xmlns="http://www.w3.org/2000/svg"><path d="M20.767 20.44a.81.81 0 00.49-.183l2.58-2.174c.316-.266.316-.681 0-.955l-2.58-2.183a.81.81 0 00-.49-.183c-.415 0-.673.258-.673.673v1.245h-1.162c-.739 0-1.195-.233-1.718-.847l-1.527-1.801 1.527-1.81c.54-.63.946-.847 1.677-.847h1.203v1.279c0 .407.258.664.673.664a.801.801 0 00.49-.174l2.58-2.175c.316-.266.316-.69 0-.955l-2.58-2.183a.761.761 0 00-.49-.183c-.415 0-.673.258-.673.665v1.386h-1.212c-1.228 0-1.992.34-2.863 1.386l-1.412 1.668-1.469-1.751c-.805-.946-1.569-1.303-2.747-1.303H8.896c-.53 0-.896.348-.896.838s.365.838.896.838h1.437c.697 0 1.162.225 1.685.847l1.519 1.801-1.52 1.81c-.53.623-.954.847-1.643.847H8.896c-.53 0-.896.348-.896.838s.365.838.896.838h1.536c1.179 0 1.901-.356 2.706-1.303l1.478-1.751 1.444 1.718c.822.98 1.627 1.336 2.822 1.336h1.212v1.412c0 .415.258.672.673.672z"></path></svg>
@@ -43,16 +43,83 @@
           </div>
           <div class="album-autor">
               测试名
-
           </div>
         </div>
       </div>
-    </di>
+
+      <div v-if="isVisible" class="volume-control">
+             <!-- 动态切换音量图标 -->
+             <img :src="volumeIcon" alt="Volume Icon" class="volume-icon">
+
+             <!-- 音量进度条 -->
+           <input type="range" v-model="volume" min="0" max="100" @input="onVolumeChange">
+            </div>
+
+      <div class="login">
+            <el-button  type="danger">
+              <el-icon><User /></el-icon>
+              <span style="padding-left: 3px;">登录</span>
+            </el-button>
+      </div>
+
+    </div>
 </template>
 
-<script setup  lang="ts">
+<script  setup lang="ts">
+import { computed, ref , onMounted, onBeforeUnmount } from 'vue';
+import {User} from '@element-plus/icons-vue'
+
+import volumeMute from '@/assets/volume/24gf-volumeCross.svg';
+import volumeLow from '@/assets/volume/24gf-volumeLow.svg';
+import volumeMedium from '@/assets/volume/24gf-volumeMiddle.svg';
+import volumeHigh from '@/assets/volume/24gf-volumeHigh.svg';
+
+
+
 const src =
 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+
+const volume = ref<number>(50);
+const isVisible = ref<boolean>(true);
+
+const checkWindowSize = () => {
+  isVisible.value = window.innerWidth >= 1000;
+};
+
+// 监听窗口变化
+onMounted(() => {
+  checkWindowSize(); // 页面加载时检查一次
+
+  // 添加窗口大小变化的监听器
+  window.addEventListener('resize', checkWindowSize);
+});
+
+// 清理监听器，防止内存泄漏
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', checkWindowSize);
+});
+
+
+
+
+const volumeIcon = computed(() => {
+      if (volume.value == 0) {
+        return volumeMute 
+      } else if (volume.value > 0 && volume.value <= 30) {
+        return  volumeLow
+      } else if (volume.value > 30 && volume.value <= 70) {
+        return volumeMedium 
+      } else {
+        return volumeHigh
+      }
+    });
+
+    // 处理音量改变
+    const onVolumeChange = () => {
+      console.log('当前音量:', volume.value);
+      // 在这里处理音频的音量设置逻辑
+    };
+
 
 </script>
 
@@ -64,9 +131,8 @@ const src =
   background-color: hsl(0deg 0% 100%);
   
   .music-controls {
-    width: 50%; /* 改为相对于父容器宽度的百分比 */
-    max-width: 300px; /* 设置最大宽度，防止控件太大 */
-    min-width: 150px; /* 设置最小宽度，防止控件太小 */
+    width: 20vw; /* 改为相对于父容器宽度的百分比 */
+    min-width: 250px; /* 设置最小宽度，防止控件太小 */
     display: flex;
     margin: 10px;
     align-items: center;
@@ -86,9 +152,10 @@ const src =
     padding: 3px;
     display: flex;
     align-items: center;
-    width: 50%; /* 改为相对于父容器宽度的百分比 */
-    max-width: 300px; /* 设置最大宽度，防止控件太大 */
-    min-width: 150px; /* 设置最小宽度，防止控件太小 */    .album-image {
+    width: 63vw; /* 改为相对于父容器宽度的百分比 */
+    min-width: 150px; /* 设置最小宽度，防止控件太小 */    
+    
+    .album-image {
       display: grid;
     }
 
@@ -114,6 +181,90 @@ svg-path {
 svg:hover {
     fill: red; /* 鼠标悬停时的颜色 */
 }
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  width:10vw;
+}
+
+.volume-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  color: rgb(133 128 128);
+}
+
+/* 通用样式 */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd; /* 默认背景颜色 */
+  border-radius: 5px;
+  height: 12px;
+  outline: none;
+}
+
+/* 自定义滑块 (Webkit: Chrome, Safari) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #fff; /* 滑块背景颜色 */
+  border-radius: 50%;
+  border: #ccc solid 1px;
+  cursor: pointer;
+}
+
+/* 进度条颜色 (Webkit: Chrome, Safari) */
+input[type="range"]::-webkit-slider-runnable-track {
+  background: rgba($color: #000000, $alpha: 0); /* 进度条颜色 */
+  border-radius: 4px;
+}
+
+/* 自定义滑块 (Firefox) */
+input[type="range"]::-moz-range-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #fff; /* 滑块背景颜色 */
+  border-radius: 50%;
+  border: #ccc solid 1px;
+  cursor: pointer;
+}
+
+/* 进度条颜色 (Firefox) */
+input[type="range"]::-moz-range-track {
+  background: rgba($color: #000000, $alpha: 0);
+}
+
+/* 自定义滑块 (IE/Edge) */
+input[type="range"]::-ms-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #fff; /* 滑块背景颜色 */
+  border-radius: 50%;
+  border: #ccc solid 1px;
+  cursor: pointer;
+}
+
+/* 进度条颜色 (IE/Edge) */
+input[type="range"]::-ms-fill-lower {
+  background: rgba($color: #000000, $alpha: 0);
+}
+
+.login {
+  display: flex;
+  align-items: center;
+  width: 10vw;
+  min-width: 100px;
+  padding-left: 50px;
+}
+
 
 
 </style>
