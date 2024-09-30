@@ -6,13 +6,13 @@
           Music
         </div>
         <div class="search">
-          <el-input :prefix-icon="Search" class="search-box"  size="large" placeholder="搜索" />
+          <el-input   :prefix-icon="Search" class="search-box"  size="large" placeholder="搜索" />
         </div>
       </div>
       <div class="aside-menu" style="width: 270px; background-color: rgb(250, 250, 250);">
-            <el-menu router style="background-color: rgb(250, 250, 250); border: 0px; "
+            <el-menu background-color="rgba(255,255,255,0.5)"  active-text-color="#f56c6c" router style="background-color: rgb(250, 250, 250); border: 0px; "
             >
-              <el-menu-item index="home" >
+              <el-menu-item  index="home" >
                 <template #title>
                   <el-icon><HomeFilled /></el-icon>
                   <span>主页</span>
@@ -76,4 +76,10 @@ import { Search  , HomeFilled , View , Histogram} from '@element-plus/icons-vue'
       
     }
   }
+
+  .el-input {
+    --el-input-focus-border-color:  #f56c6c !important;
+  }
+
+
 </style>

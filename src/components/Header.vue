@@ -56,18 +56,23 @@
             </div>
 
       <div class="login">
-            <el-button  type="danger">
+            <el-button @click="setShow(true)"  type="danger">
               <el-icon><User /></el-icon>
               <span style="padding-left: 3px;">登录</span>
             </el-button>
       </div>
 
     </div>
+
+
+    <LoginView></LoginView>
 </template>
 
-<script  setup lang="ts">
-import { computed, ref , onMounted, onBeforeUnmount } from 'vue';
+<script  setup lang="ts" >
+import { computed, ref , onMounted, onBeforeUnmount , reactive  ,provide } from 'vue';
 import {User} from '@element-plus/icons-vue'
+
+import LoginView  from '../view/LoginView.vue';
 
 import volumeMute from '@/assets/volume/24gf-volumeCross.svg';
 import volumeLow from '@/assets/volume/24gf-volumeLow.svg';
@@ -98,6 +103,20 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', checkWindowSize);
 });
+
+//登录二级弹出
+const isShow = ref(false);
+
+const setShow = (val) => {
+  isShow.value = val;
+}
+
+provide("dialog-show" , {
+  isShow,
+  setShow,
+});
+
+
 
 
 
