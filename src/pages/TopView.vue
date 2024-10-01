@@ -26,7 +26,7 @@ export default {
       try {
         const response = await getHotSearchList();
         if (response.data && response.data.result) {
-          hotSearchList.value = response.data.result.hots; // 保存到 hotSearchList
+          hotSearchList.value = response.data.result.hots; 
         }
       } catch (error) {
         console.error('获取热门搜索列表失败:', error);

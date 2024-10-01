@@ -1,8 +1,8 @@
 //创建一个路由器 , 并暴露出去
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../pages/Home.vue";
-import Top from "../pages/Top.vue";
-import Playlist from "../pages/Playlist.vue";
+import Home from "../pages/HomeView.vue";
+import Top from "../pages/TopView.vue";
+import Playlist from "../pages/NewView.vue";
 import LoginView from "../view/LoginView.vue";
 import IndexView from "../view/IndexView.vue";
 
