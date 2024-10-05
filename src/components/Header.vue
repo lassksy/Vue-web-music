@@ -55,12 +55,23 @@
            <input type="range" v-model="volume" min="0" max="100" @input="onVolumeChange">
             </div>
 
-      <div class="login">
-            <el-button @click="setShow(true)"  type="danger">
-              <el-icon><User /></el-icon>
-              <span style="padding-left: 3px;">登录</span>
-            </el-button>
-      </div>
+            <div class="login">
+    <!-- 如果用户未登录，显示登录按钮 -->
+    <el-button v-if="!isLoggedIn" @click="setShow(true)" type="danger">
+      <el-icon><User /></el-icon>
+      <span style="padding-left: 3px;">登录</span>
+    </el-button>
+
+      <!-- 如果用户已登录，显示不同的内容 -->
+      <div v-else>
+      <el-icon><User /></el-icon>
+      <span style="padding-left: 3px;">{{ account.username }}</span> <!-- 显示用户名 -->
+         <el-button @click="logout" type="danger">
+        退出
+      </el-button>
+    </div>
+
+    </div>
 
     </div>
 
@@ -80,6 +91,8 @@ import volumeMedium from '@/assets/volume/24gf-volumeMiddle.svg';
 import volumeHigh from '@/assets/volume/24gf-volumeHigh.svg';
 
 
+import { logOut , loginStatus } from '../service/login';
+import { accountInfo } from '../service/account';
 
 const src =
 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
@@ -117,10 +130,7 @@ provide("dialog-show" , {
 });
 
 
-
-
-
-
+//音量调节
 const volumeIcon = computed(() => {
       if (volume.value == 0) {
         return volumeMute 
@@ -139,6 +149,32 @@ const volumeIcon = computed(() => {
       // 在这里处理音频的音量设置逻辑
     };
 
+    const checkLoginStatus = () => {
+      // 假设有一个 API 或其他方法检查用户是否已登录
+      // 这里直接设置为登录状态为 true，实际开发中应根据 API 返回值进行判断
+      loginStatus
+    };
+
+
+    const fetchAccountInfo = async () => {
+      try {
+        const response = await accountInfo();  // 调用接口获取账号信息
+        account.value = response.data;  // 假设 API 返回的数据包含 `username`
+        isLoggedIn.value = true;  // 获取账号信息后设为登录状态
+      } catch (error) {
+        console.error('获取账号信息失败', error);
+      }
+    };
+
+
+
+    onMounted(() => {
+      checkLoginStatus();
+      fetchAccountInfo();
+    });
+
+
+
 
 </script>
 
@@ -150,11 +186,12 @@ const volumeIcon = computed(() => {
   background-color: hsl(0deg 0% 100%);
   
   .music-controls {
-    width: 20vw; /* 改为相对于父容器宽度的百分比 */
-    min-width: 250px; /* 设置最小宽度，防止控件太小 */
+    width: 10vw; /* 改为相对于父容器宽度的百分比 */
+    min-width: 200px; /* 设置最小宽度，防止控件太小 */
     display: flex;
     margin: 10px;
     align-items: center;
+    padding-right: 20px;
 
     .button-c {
       width: 50%;
@@ -171,8 +208,8 @@ const volumeIcon = computed(() => {
     padding: 3px;
     display: flex;
     align-items: center;
-    width: 63vw; /* 改为相对于父容器宽度的百分比 */
-    min-width: 150px; /* 设置最小宽度，防止控件太小 */    
+    width: 60vw; 
+    min-width: 150px; 
     
     .album-image {
       display: grid;
@@ -205,11 +242,12 @@ svg:hover {
   display: flex;
   align-items: center;
   width:10vw;
+  padding-right:8vw;
 }
 
 .volume-icon {
-  width: 24px;
-  height: 24px;
+  width: 14px;
+  height: 14px;
   margin-right: 10px;
   color: rgb(133 128 128);
 }
@@ -220,8 +258,9 @@ input[type="range"] {
   appearance: none;
   background: #ddd; /* 默认背景颜色 */
   border-radius: 5px;
-  height: 12px;
+  height: 8px;
   outline: none;
+  width: 150px;
 }
 
 /* 自定义滑块 (Webkit: Chrome, Safari) */
@@ -281,7 +320,6 @@ input[type="range"]::-ms-fill-lower {
   align-items: center;
   width: 10vw;
   min-width: 100px;
-  padding-left: 50px;
 }
 
 

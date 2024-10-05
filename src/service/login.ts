@@ -43,3 +43,20 @@ export function loginEmail(email: string, password: string) {
 export function guestLogin() {
   return request.get(`/register/anonimous`)
 } 
+
+//获取登录状态
+export function loginStatus() {
+  return request.get(`/login/status`)
+}
+
+
+
+//刷新登录
+export function refreshLogin() {
+  return request.get(`/login/refresh`)
+}
+
+//推出登录
+export function logOut() {
+  return request.get(`/logout`)
+}
