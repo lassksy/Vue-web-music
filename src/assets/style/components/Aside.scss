@@ -1,0 +1,56 @@
+@import "style/theme/handle.scss";
+
+.aside {
+	width: calc(260px - 40px);
+	height: calc(100vh - 40px);
+	padding: 20px;
+	background-color: rgba($color: #f9f9f9, $alpha: 1);
+	border-right: 1px solid rgb(198, 198, 198);
+    backdrop-filter: blur(10px);
+
+	.logo {
+		.iconify,
+		span {
+			font-size: 1.4rem;
+			font-weight: bold;
+		}
+	}
+	.search {
+		margin: 24px 0;
+		padding: 8px 6px;
+		border: 1px solid rgb(198, 198, 198);
+		border-radius: 6px;
+		background-color: #ffffff;
+
+		@include flex_center(row, start);
+
+		.iconify {
+			color: #fa233b;
+		}
+		input {
+			margin-left: 6px;
+			background-color: transparent;
+			outline: none;
+			border: none;
+		}
+	}
+	.search:focus-within {
+		box-shadow: 0px 0px 1px 4px rgba($color: #fa233b, $alpha: 0.75);
+	}
+	.menu {
+		li {
+            padding: 6px;
+			margin-bottom: 8px;
+			list-style: none;
+			font-size: 1rem;
+            // background-color: rgba(60,60,67,.1);
+            border-radius: 6px;
+			@include flex_center(row, start);
+			.iconify {
+                margin-right: 6px;
+				font-size: 1.2rem;
+				color: #fa233b;
+			}
+		}
+	}
+}

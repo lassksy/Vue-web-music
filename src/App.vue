@@ -1,13 +1,20 @@
-<script lang="ts" setup>
-import {  RouterView } from 'vue-router'
-
-</script>
-
 <template>
-        <RouterView></RouterView>
-    
+	<div class="main">
+		<Aside />
+		<Header />
+		<router-view />
+	</div>
 </template>
 
-<style scoped>
-    
+<script setup lang="ts">
+import Header from "./components/Header.vue";
+import Aside from "./components/Aside.vue";
+</script>
+
+<style lang="scss" scoped>
+.main {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+}
 </style>
