@@ -1,14 +1,12 @@
 <template>
 	<div class="main">
-		<Aside />
-		<Header />
-		<router-view />
+		<RouterView></RouterView>
 	</div>
 </template>
 
 <script setup lang="ts">
-import Header from "./components/Header.vue";
-import Aside from "./components/Aside.vue";
+import {  RouterView } from 'vue-router'
+
 </script>
 
 <style lang="scss" scoped>

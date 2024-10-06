@@ -9,9 +9,26 @@
 			<input type="text" />
 		</div>
 		<ul class="menu">
-			<li><Icon icon="heroicons-solid:home" />主页</li>
-			<li><Icon icon="mdi:eye" />新发现</li>
-			<li><Icon icon="material-symbols:leaderboard-rounded" />排行榜</li>
+			<li>
+			<router-link to="/home" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+			<Icon icon="heroicons-solid:home" />主页
+			</router-link>
+			
+			</li>
+
+			<li>
+				<router-link to="/playlist" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+				<Icon icon="mdi:eye" />新发现
+				</router-link>
+
+			</li>
+
+			<li>
+				<router-link to="/top" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+				<Icon icon="material-symbols:leaderboard-rounded" />排行榜
+				</router-link>
+			
+			</li>
 		</ul>
 	</div>
 </template>

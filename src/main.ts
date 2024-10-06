@@ -3,7 +3,6 @@ import "./assets/style/main.scss";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { Icon } from '@iconify/vue';
-
 import App from "./App.vue";
 import router from "./router";
 
