@@ -39,11 +39,17 @@
 				<!-- 登录 -->
 				<button class="login_button"@click="setShow(true)">
 					<Icon icon="iconamoon:profile-fill" />
-					<span>Sign In</span>
+					<span>登录</span>
 				</button>
 			</div>
 		</div>
+
+
+    <!-- 登录弹窗 -->
+    <div class="login" v-if="isShow">
 <Login></Login>
+
+	</div>		
 </template>
 
 <script setup lang="ts">

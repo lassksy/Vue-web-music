@@ -32,5 +32,8 @@
     .el-main {
       padding: 0;
     }
+    .el-aside {
+      width: auto;
+    }
 
 </style>

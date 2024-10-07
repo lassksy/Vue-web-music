@@ -1,12 +1,21 @@
 @import "style/theme/handle.scss";
 
 .login {
-	width: 100%;
-	height: 100%;
+  // 脱离文档流，并设置背景为半透明的颜色
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
 
-	position: fixed;
-	top: 0;
-	background-color: rgba($color: #000000, $alpha: 0.5);
+  // 让登录窗口垂直水平居中
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // 保持登录窗口一直在页面最顶层
+  z-index: 999;
 
 	@include flex_center;
 
@@ -179,3 +188,6 @@
 		}
 	}
 }
+
+
+

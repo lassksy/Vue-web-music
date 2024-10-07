@@ -76,9 +76,6 @@
 <script setup>
 import {ref , reactive , inject} from "vue";
 
-import {Close} from '@element-plus/icons-vue'
-
-
 import {
 		qrCodeLoginKey,
 		qrCodeLoginImg,
@@ -121,75 +118,62 @@ const loginForm = ref({
 });
 
 // 当前登录方式：手机或邮箱
-const loginMethod = ref('phone'); // 默认使用手机登录
+const loginMethod = ref(0); // 默认使用手机登录
 
 // 引用form
 const loginFormRef = ref(null);
 
 // 登录处理函数
 const handleLogin = async () => {
-  // 选择不同的登录方式
-  if (loginMethod.value === 'phone') {
-
+  // 判断当前的登录方式
+  if (loginMethod.value === 0) {
+    // 手机登录
     try {
-  // 使用 loginCellphone 函数进行 GET 请求
-  const res = await loginCellphone(
-    loginForm.value.phone,
-    loginForm.value.password,
-    loginForm.value.countrycode || '' // 默认值处理
-  );
+      const res = await loginCellphone(
+        loginForm.value.phone,
+        loginForm.value.password,
+        loginForm.value.countrycode || '' // 国家代码
+      );
 
-  // 检查响应中的 code 是否为 200 表示登录成功
-  if (res.data && res.data.code == 200) {
-    ElMessage.success('登录成功');
-    // 设置 cookie，如果存在
-    if (res.data.cookie) {
-      document.cookie = res.data.cookie;
+      if (res.data && res.data.code == 200) {
+        ElMessage.success('登录成功');
+        if (res.data.cookie) {
+          document.cookie = res.data.cookie;
+        }
+      } else {
+        ElMessage.error(res.data?.msg || '登录失败');
+      }
+    } catch (error) {
+      ElMessage.error('手机登录出现错误');
+      console.error('手机登录错误:', error);
     }
-  } else {
-    // 如果 code 不是 200，显示错误信息
-    ElMessage.error(res.data?.msg || '登录失败');
-  }
-} catch (error) {
-  // 捕获请求中的错误，显示错误提示
-  ElMessage.error('手机登录出现错误');
-  console.error('手机登录错误:', error);
-}
-
-  } else {
+  } else if (loginMethod.value === 1) {
     // 邮箱登录
     try {
-  // 校验邮箱和密码是否为空
-  if (!loginForm.value.email || !loginForm.value.password) {
-    ElMessage.error('请输入邮箱和密码');
-    return;
-  }
+      if (!loginForm.value.email || !loginForm.value.password) {
+        ElMessage.error('请输入邮箱和密码');
+        return;
+      }
 
-  // 调用 loginEmail 函数，传递 email 和 password 参数
-  const res = await loginEmail(
-    loginForm.value.email,
-    loginForm.value.password
-  );
+      const res = await loginEmail(
+        loginForm.value.email,
+        loginForm.value.password
+      );
 
-  // 判断登录是否成功
-  if (res.data && res.data.code == 200) {
-    ElMessage.success('登录成功');
-    // 如果存在 cookie，则设置它
-    if (res.data.cookie) {
-      document.cookie = res.data.cookie;
+      if (res.data && res.data.code == 200) {
+        ElMessage.success('登录成功');
+        if (res.data.cookie) {
+          document.cookie = res.data.cookie;
+        }
+      } else {
+        ElMessage.error(res.data?.msg || '登录失败');
+      }
+    } catch (error) {
+      ElMessage.error('邮箱登录出现错误');
+      console.error('邮箱登录错误:', error);
     }
-  } else {
-    // 如果登录失败或 code 不为 200，显示错误信息
-    ElMessage.error(res.data?.msg || '登录失败');
   }
-} catch (error) {
-  // 捕获请求错误，并显示提示信息
-  ElMessage.error('邮箱登录出现错误');
-  console.error('邮箱登录错误:', error);
-}
-
-  }
-};  
+};
 
 // 定义 handleGuestLogin 函数处理点击事件
 const handleGuestLogin = async () => {
@@ -258,6 +242,8 @@ const getQrCode = async () => {
     console.error("获取二维码时发生错误", error);
   }
 };
+
+
 </script>
 
 <style lang="scss" scoped>
