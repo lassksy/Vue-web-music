@@ -1,9 +1,12 @@
 <template>
       <div class="common-layout">
       <el-container>
-          <el-aside>        <Aside/>          </el-aside>
+          <el-aside>        
+            <Aside/>          
+          </el-aside>
         <el-container>
-          <el-header>           <Header/>
+          <el-header>           
+            <Header/>
           </el-header>
           <el-main>
             <RouterView></RouterView>
@@ -28,9 +31,11 @@
     }
     .el-header {
       padding: 0;
+      margin-left: 260px;
+
     }
     .el-main {
-      padding: 0;
+      margin-left: 300px;
     }
     .el-aside {
       width: auto;

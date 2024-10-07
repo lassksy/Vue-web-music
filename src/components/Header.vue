@@ -81,6 +81,7 @@ const isShow = ref(false);
 
 const setShow = (val) => {
   isShow.value = val;
+  document.documentElement.style.overflowY = 'hidden'; 
 }
 
 provide("dialog-show" , {
