@@ -6,7 +6,7 @@
 			</button>
 
 			<div class="main">
-				<div v-if="!isQrLogin">
+				<div>
 					<Icon icon="mdi:apple" />
 					<p class="title">网易云账号登录</p>
 					<p class="tip">请输入你的电子邮件地址或电话号码以开始。</p>
@@ -56,24 +56,27 @@
 						<!-- 扫码登录 -->
 						<div class="QC_login" v-if="loginMethod === 2">
 							<p>请使用网易云音乐App扫码登录</p>
-							<img v-if="qrImgUrl" :src="qrImgUrl" alt="扫码登录二维码" style="margin-top: 20px; width: 200px; height: 200px;" />
+              <img v-if="qrImgUrl" :src="qrImgUrl" alt="扫码登录二维码" style="margin-top: 20px; width: 200px; height: 200px;" />
+              <button @click="getQrCode" class="refresh_button" style="margin-top: 20px;">刷新二维码</button>
+
 						</div>
 
 						<!-- 登录按钮 -->
-						<div class="button_box">
+						<div class="button_box" v-if="loginMethod !== 2">
 							<button class="login_button" @click="handleLogin">登录</button>
 							<button class="tourist_login_button"  @click="handleGuestLogin">游客登录</button>
 						</div>
 					</div>
 				</div>
-				<div v-else></div>
+				<div></div>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import {ref , reactive , inject} from "vue";
+import {ref , reactive , inject , onMounted , watch } from "vue";
+import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import {
 		qrCodeLoginKey,
@@ -92,21 +95,8 @@ const close = ()=> {
     document.documentElement.style.overflowY = 'scroll'; 
  }
 
-// 定义响应式变量
-const isQrLogin = ref(false);
-const isDark = ref(false);
-const qrImgUrl = ref(''); // 存放二维码图片的URL
-
-// 切换登录方式
-const toggleLoginMethod = () => {
-  isQrLogin.value = !isQrLogin.value;
-  
-  // 当切换到扫码登录时，调用获取二维码的逻辑
-  if (isQrLogin.value) {
-    getQrCode();
-  }
-};
-
+    // 定义二维码响应式变量
+    const qrImgUrl = ref(''); // 二维码图片的 URL
 
 const loginMethod = ref(0); // 0 - 手机登录, 1 - 邮箱登录, 2 - 扫码登录
     const number = ref(''); // 手机号
@@ -114,13 +104,23 @@ const loginMethod = ref(0); // 0 - 手机登录, 1 - 邮箱登录, 2 - 扫码登
     const countrycode = ref('86'); // 默认国家代码
     const email = ref(''); // 邮箱
 
+
+    // 监听 loginMethod 的变化
+    watch(loginMethod, (newValue) => {
+      if (newValue === 2) {
+        // 当 loginMethod 切换到 2（扫码登录模式）时，调用 getQrCode()
+        getQrCode();
+      }
+    });
+
+
    // 处理登录逻辑
 const handleLogin = async () => {
   try {
     // 手机登录逻辑
     if (loginMethod.value === 0) {
       if (!number.value || !password.value || !countrycode.value) {
-        alert('请输入完整的手机号、密码和国家代码');
+        ElMessage.warning('请输入完整的手机号、密码和国家代码');
         return;
       }
 
@@ -130,22 +130,23 @@ const handleLogin = async () => {
 
       // 检查登录是否成功
       if (response.data.code === 200) {
-        alert('手机号登录成功');
+        ElMessage.success('手机号登录成功');
         isShow.value = false;
+        document.documentElement.style.overflowY = 'scroll'; 
         // 保存 Cookie
         if (response.data.cookie) {
           document.cookie = `cookie=${response.data.cookie}; path=/;`;
-          alert('登录成功，Cookie 已保存');
+          console.log('登录成功，Cookie 已保存');
         }
       } else {
-        alert(`登录失败，原因: ${response.data.msg || '未知错误'}`);
+        ElMessage.error(`登录失败，原因: ${response.data.msg || '未知错误'}`);
       }
 
     } 
     // 邮箱登录逻辑
     else if (loginMethod.value === 1) {
       if (!email.value || !password.value) {
-        alert('请输入完整的邮箱和密码');
+        ElMessage.warning('请输入完整的邮箱和密码');
         return;
       }
 
@@ -155,22 +156,26 @@ const handleLogin = async () => {
 
       // 检查登录是否成功
       if (response.data.code === 200) {
-        alert('邮箱登录成功');
+        ElMessage.success('邮箱登录成功');
         isShow.value = false;
+        document.documentElement.style.overflowY = 'scroll'; 
+
         // 保存 Cookie
         if (response.data.cookie) {
           document.cookie = `cookie=${response.data.cookie}; path=/;`;
-          alert('登录成功，Cookie 已保存');
+          console.log('登录成功，Cookie 已保存');
         }
       } else {
-        alert(`登录失败，原因: ${response.data.msg || '未知错误'}`);
+        ElMessage.error(`登录失败，原因: ${response.data.msg || '未知错误'}`);
       }
 
     } 
     // 扫码登录逻辑
     else if (loginMethod.value === 2) {
-      alert('请使用网易云音乐App扫码登录');
+      ElMessage.warning('请使用网易云音乐App扫码登录');
       // 此处可以添加二维码生成逻辑或其他扫码登录处理逻辑
+      getQrCode();
+
     }
 
   } catch (error) {
@@ -190,6 +195,8 @@ const handleGuestLogin = async () => {
             // 清除已有的 "MUSIC_A_T" cookie，确保只存一个 cookie
             document.cookie = "MUSIC_A_T=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
       isShow.value = false;
+      document.documentElement.style.overflowY = 'scroll'; 
+
       // 处理成功的登录状态
       if (res.data.cookie) {
         document.cookie = res.data.cookie; // 设置 cookie
@@ -203,8 +210,11 @@ const handleGuestLogin = async () => {
   }
 };
 
-
-
+    // // 当组件挂载时调用二维码登录逻辑
+    // onMounted(() => {
+    //   if (loginMethod.value == 2) {
+    //   }
+    // });
 
 // 获取二维码逻辑
 const getQrCode = async () => {
@@ -228,19 +238,21 @@ const getQrCode = async () => {
         let res = await qrCodeLoginCheck(key, nowtime2);
 
         if (res.data.code === 800) {
-          alert("二维码已过期，请重新生成");
+          ElMessage.error("二维码已过期，请重新生成");
           clearInterval(check);
         }
 
         if (res.data.code === 803) {
-          alert("授权登录成功！");
+          ElMessage.success("授权登录成功！");
           clearInterval(check);
+          isShow.value = false;
+          document.documentElement.style.overflowY = 'scroll'; 
 
-            // 如果登录成功，存入 cookie
-        if (res.data && res.data.cookie) {
-          document.cookie = res.data.cookie; // 将登录的 cookie 存入浏览器
+        // 保存 Cookie
+        if (response.data.cookie) {
+          document.cookie = `cookie=${response.data.cookie}; path=/;`;
+          console.log('登录成功，Cookie 已保存');
         }
-
 
         }
       }, 3000);
@@ -249,6 +261,13 @@ const getQrCode = async () => {
     console.error("获取二维码时发生错误", error);
   }
 };
+
+
+onMounted(() => {
+      if (loginMethod.value === 2) {
+        getQrCode();  // 开始扫码登录流程
+      }
+    });
 
 
 </script>

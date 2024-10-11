@@ -1,7 +1,9 @@
-import request from "./request";
+import axios from 'axios';
+import instance from './request';
 
-//  
 export function getDailySongs() {
-    return request.get(`/recommend/songs`)
-  }
+  return instance.get(`/recommend/songs`, {
+    withCredentials: true,
+  });
+}
   

@@ -1,66 +1,59 @@
 <template>
-    <div class="main">
-        <h1 style="font-size: 36px;">新发现</h1>
-   
-    </div>
-
-         <div class="daily-songs">
-            <div>
- <!-- 确保 dailySongs 有数据时才渲染，否则显示加载中 -->
- <div v-if="dailySongs && dailySongs.length > 0" class="daily-songs">
-      <el-row :gutter="20">
-        <el-col :span="8" v-for="song in dailySongs" :key="song.id">
-          <el-card :header="song.name">
-            <img :src="song.al.picUrl" alt="专辑封面" style="width: 100%; height: auto; margin-bottom: 10px;">
-            <div>歌手: {{ song.ar[0].name }}</div>
-            <div>推荐理由: {{ song.recommendReason }}</div>
-            <el-button type="primary" @click="playSong(song.id)">播放</el-button>
-          </el-card>
-        </el-col>
-      </el-row>
-    </div>
-
-    <!-- 当 dailySongs 没有加载完毕时显示加载中 -->
-    <div v-else>
-      加载中...
-    </div>
-  </div>
+  <div class="main">
+    <h1 style="font-size: 36px;">新发现</h1>
+    <div class="playlist">
+    <h1>每日推荐歌曲</h1>
+    <!-- 数据加载中时显示 -->
+    <div v-if="loading">加载中...</div>
+    
+    <!-- 显示歌曲列表 -->
+    <ul v-if="!loading">
+      <li v-for="song in songs" :key="song.id" class="song-item">
+        <img :src="song.al.picUrl" :alt="song.al.name" class="album-cover" />
+        <div class="song-info">
+          <h3>{{ song.name }}</h3>
+          <p>歌手: {{ song.ar[0].name }}</p>
+          <p>专辑: {{ song.al.name }}</p>
+          <p>时长: {{ formatDuration(song.dt) }}</p>
         </div>
-    
-    
-    
+      </li>
+    </ul>
+  </div>
+  </div>
 </template>
 
 <script setup>
-
 import { ref, onMounted } from 'vue';
-import {getDailySongs} from '../service/song'
+import {getDailySongs} from '../service/song.ts'
 
-// 定义响应式变量 dailySongs
-const dailySongs = ref([]);
 
-// 获取每日推荐歌单的函数
-const fetchDailySongs = async () => {
-  try {
-    const response = await getDailySongs();
-    console.log(response.data);  // 调试输出返回数据
-    dailySongs.value = response.data.data.dailySongs || [];  // 确保 dailySongs 赋值成功
-  } catch (error) {
-    console.error('获取每日推荐歌单失败', error);
-    dailySongs.value = [];  // 发生错误时，dailySongs 设为空数组，防止页面渲染崩溃
-  }
-};
 
-// 播放歌曲的函数
-const playSong = (id) => {
-  console.log('播放歌曲 ID:', id);
-  // 实际播放逻辑
-};
+    const songs = ref([]);  // 用于存储歌曲数据
+    const loading = ref(true);  // 数据加载状态
 
-// 当组件挂载时调用 fetchDailySongs
-onMounted(() => {
-  fetchDailySongs();
-});
+    // 格式化歌曲时长，转换为 mm:ss 格式
+    const formatDuration = (ms) => {
+      const minutes = Math.floor(ms / 60000);
+      const seconds = ((ms % 60000) / 1000).toFixed(0);
+      return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    };
+
+    // 获取每日推荐歌曲
+    const fetchSongs = async () => {
+      try {
+        const response = await getDailySongs();
+        songs.value = response.data.data.dailySongs;
+        console.log('每日推荐歌曲:', response.data); // 这里打印整个 response
+
+      } catch (error) {
+        console.error('获取推荐歌曲时出错:', error);
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    // 组件挂载时调用获取数据函数
+    onMounted(fetchSongs);
 //  dailySongs.value = [
 //   {
 //     "name": "her",
@@ -90,6 +83,27 @@ onMounted(() => {
 
     .daily-songs {
   padding: 20px;
+}
+
+.playlist {
+  padding: 20px;
+}
+
+.song-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.album-cover {
+  width: 60px;
+  height: 60px;
+  margin-right: 15px;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
 }
 
 </style>
