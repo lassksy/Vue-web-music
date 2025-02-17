@@ -1,20 +1,25 @@
 <template>
   <div class="main">
     <h1 style="font-size: 36px;">新发现</h1>
+
+
+  <el-divider />
     <div class="playlist">
-    <h1>每日推荐歌曲</h1>
+    <h1 style="font-size: 24px; padding-bottom: 20px;">每日推荐歌曲</h1>
     <!-- 数据加载中时显示 -->
     <div v-if="loading">加载中...</div>
     
     <!-- 显示歌曲列表 -->
-    <ul v-if="!loading">
+    <ul class="flex-list" v-if="!loading">
       <li v-for="song in songs" :key="song.id" class="song-item">
-        <img :src="song.al.picUrl" :alt="song.al.name" class="album-cover" />
+        <div class="image-container">
+          <img :src="song.al.picUrl" :alt="song.al.name" class="album-cover" />
+        </div>
         <div class="song-info">
-          <h3>{{ song.name }}</h3>
-          <p>歌手: {{ song.ar[0].name }}</p>
-          <p>专辑: {{ song.al.name }}</p>
-          <p>时长: {{ formatDuration(song.dt) }}</p>
+          <p style="  cursor: pointer;">{{ song.name }}</p>
+          <p class="ar-name">{{ song.ar[0].name }}</p>
+          <!-- <p>专辑: {{ song.al.name }}</p> -->
+          <!-- <p>时长: {{ formatDuration(song.dt) }}</p> -->
         </div>
       </li>
     </ul>
@@ -23,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted  } from 'vue';
 import {getDailySongs} from '../service/song.ts'
 
 
@@ -52,18 +57,9 @@ import {getDailySongs} from '../service/song.ts'
       }
     };
 
+
     // 组件挂载时调用获取数据函数
     onMounted(fetchSongs);
-//  dailySongs.value = [
-//   {
-//     "name": "her",
-//     "id": 2621307695,
-//     "ar": [{ "name": "JVKE" }],
-//     "al": { "picUrl": "http://p2.music.126.net/taVIGxnWf19S-uhq0UutZQ==/109951169908867905.jpg" },
-//     "recommendReason": "超44%人收藏"
-//   }
-// ];
-
 
 
 
@@ -81,6 +77,7 @@ import {getDailySongs} from '../service/song.ts'
         
     }
 
+
     .daily-songs {
   padding: 20px;
 }
@@ -96,15 +93,79 @@ import {getDailySongs} from '../service/song.ts'
 }
 
 .album-cover {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   margin-right: 15px;
+  border-radius: 15%;
 }
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-container::after {
+  content: '▶'; /* 这里可以换成你的播放图标 */
+  font-size: 24px;
+  color: white;
+  position: absolute;
+  top: 45%;
+  left: 40%;
+  transform: translate(-50%, -50%); /* 让图标居中 */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none; /* 防止图标影响鼠标事件 */
+}
+
+.image-container:hover::after {
+  opacity: 1;
+}
+
+.ar-name {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.ar-name::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* 控制下划线位置 */
+  width: 0%; /* 初始隐藏 */
+  height: 2px;
+  background-color: black;
+  transition: width 0.3s ease-in-out;
+}
+
+.ar-name:hover::after {
+  width: 100%;
+}
+
 
 .song-info {
   display: flex;
   flex-direction: column;
 }
+
+.flex-list {
+  display: flex;
+  flex-wrap: wrap; /* 允许换行 */
+  gap: 0px; /* 间距 */
+  list-style: none;
+  padding: 0;
+}
+
+.flex-list li {
+  width: calc(50% - 10px); /* 让每行最多 4 个，减去间距 */
+  padding: 0px;
+  box-sizing: border-box;
+}
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
 
 </style>
 

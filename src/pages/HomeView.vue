@@ -1,26 +1,15 @@
 <template>
   <div class="main">
-
-  </div>
-    <!-- <h1>
-        <el-carousel :interval="4000" type="card" height="250px">
-    <el-carousel-item v-for="item in 6" :key="item">
+    <h1 style="font-size: 36px; ">主页</h1>
+    <el-divider />
+    <p style="font-size: 12px; color: grey; font-weight: bold;">热门mv</p>
+    <el-carousel indicator-position="inside" height="400px" motion-blur>
+    <el-carousel-item v-for="item in 4" :key="item">
       <h3 text="2xl" justify="center">{{ item }}</h3>
     </el-carousel-item>
   </el-carousel>
-  </h1>
-   -->
+    </div>
 
-  <!-- <div class="cards">
-    <el-card shadow="hover" style="max-width: 256px">
-    <img
-      src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-      style="width: 100%"
-    />
-    <template #footer>一个歌单</template>
-
-    </el-card>
-  </div> -->
 </template>
 
 <script>
@@ -30,17 +19,19 @@
 </script>
 
 <style scoped>
-  .main {
-    border: 0.5px solid rgb(198, 198, 198);
-    background-color: hsl(0deg 0% 100%);
-  }
-
-.el-carousel__item h3 {
+    .main {
+        margin: 20px;
+        border-bottom:  solid #f7f7f7;
+        padding-bottom: 8px;
+        width: 1000px;
+        
+    }
+    .el-carousel__item h3 {
+  display: flex;
   color: #475669;
   opacity: 0.75;
-  line-height: 200px;
+  line-height: 300px;
   margin: 0;
-  text-align: center;
 }
 
 .el-carousel__item:nth-child(2n) {
@@ -49,13 +40,5 @@
 
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
-}
-
-.h1 {
-  font-weight: bold;
-  font-size: 20px;
-  padding-top: 25px;
-}
-
-
+}   
 </style>
