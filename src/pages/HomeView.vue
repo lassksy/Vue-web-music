@@ -1,44 +1,39 @@
 <template>
   <div class="main">
-    <h1 style="font-size: 36px; ">主页</h1>
+    <h1 style="font-size: 36px;">主页</h1>
     <el-divider />
-    <p style="font-size: 12px; color: grey; font-weight: bold;">热门mv</p>
-    <el-carousel indicator-position="inside" height="400px" motion-blur>
-    <el-carousel-item v-for="item in 4" :key="item">
-      <h3 text="2xl" justify="center">{{ item }}</h3>
+    <el-carousel height="400px">
+    <el-carousel-item v-for="(image, index) in banners" :key="index">
+      <img :src="image" alt="banner" style="width: 100%; height: 100%; object-fit: cover;">
     </el-carousel-item>
   </el-carousel>
-    </div>
-
+    <p style="font-size: 12px; color: grey; font-weight: bold;">热门mv</p>
+  </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
+const banners = ref([]);
 
-
+onMounted(() => {
+  axios.get('https://netease-cloud-music-api-backup-eight.vercel.app/banner') // 替换为你的 API 地址
+    .then(response => {
+      banners.value = response.data.banners.map(item => item.imageUrl); // 提取所有图片链接
+    })
+    .catch(error => {
+      console.error('请求失败:', error);
+    });
+});
 </script>
 
-<style scoped>
-    .main {
-        margin: 20px;
-        border-bottom:  solid #f7f7f7;
-        padding-bottom: 8px;
-        width: 1000px;
-        
-    }
-    .el-carousel__item h3 {
-  display: flex;
-  color: #475669;
-  opacity: 0.75;
-  line-height: 300px;
-  margin: 0;
-}
+<style lang="scss" scoped>
+@import url("../assets/style/pages/home.scss");
 
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
-
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}   
 </style>

@@ -1,0 +1,96 @@
+.main {
+    margin: 20px;
+    border-bottom:  solid #f7f7f7;
+    padding-bottom: 8px;
+    width: 80%;
+    
+}
+
+
+.daily-songs {
+padding: 20px;
+}
+
+.playlist {
+padding: 20px;
+}
+
+.song-item {
+display: flex;
+align-items: center;
+margin-bottom: 15px;
+}
+
+.album-cover {
+width: 48px;
+height: 48px;
+margin-right: 15px;
+border-radius: 15%;
+}
+
+.image-container {
+position: relative;
+display: inline-block;
+}
+
+.image-container::after {
+content: '▶'; /* 这里可以换成你的播放图标 */
+font-size: 24px;
+color: white;
+position: absolute;
+top: 45%;
+left: 40%;
+transform: translate(-50%, -50%); /* 让图标居中 */
+opacity: 0;
+transition: opacity 0.3s ease-in-out;
+pointer-events: none; /* 防止图标影响鼠标事件 */
+}
+
+.image-container:hover::after {
+opacity: 1;
+}
+
+.ar-name {
+position: relative;
+display: inline-block;
+cursor: pointer;
+}
+
+.ar-name::after {
+content: "";
+position: absolute;
+left: 0;
+bottom: -2px; /* 控制下划线位置 */
+width: 0%; /* 初始隐藏 */
+height: 2px;
+background-color: black;
+transition: width 0.3s ease-in-out;
+}
+
+.ar-name:hover::after {
+width: 100%;
+}
+
+
+.song-info {
+display: flex;
+flex-direction: column;
+}
+
+.flex-list {
+display: flex;
+flex-wrap: wrap; /* 允许换行 */
+gap: 0px; /* 间距 */
+list-style: none;
+padding: 0;
+}
+
+.flex-list li {
+width: calc(50% - 10px); /* 让每行最多 4 个，减去间距 */
+padding: 0px;
+box-sizing: border-box;
+}
+.pagination {
+margin-top: 20px;
+text-align: center;
+}

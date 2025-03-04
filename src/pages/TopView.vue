@@ -44,19 +44,6 @@ export default {
 </script>
 
 <style scoped>
-.hot-search-list {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 0;
-  font-size: 18px;
-}
+@import url("../assets/style/pages/top.scss");
 
 </style>
