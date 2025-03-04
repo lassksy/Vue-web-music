@@ -11,7 +11,7 @@ import {  RouterView } from 'vue-router'
 
 <style lang="scss" scoped>
 .main {
-	width: 100vw;
+	width: 100%;
 	height: 100vh;
 	display: flex;
 }

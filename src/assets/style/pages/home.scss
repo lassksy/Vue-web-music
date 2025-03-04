@@ -1,9 +1,8 @@
 .main {
-    margin: 20px;
     border-bottom:  solid #f7f7f7;
     padding-bottom: 8px;
-    width: 1000px;
-    
+    width: 100%;
+    height: 100vh;
 }
 .el-carousel__item h3 {
 display: flex;
@@ -20,3 +19,69 @@ background-color: #99a9bf;
 .el-carousel__item:nth-child(2n + 1) {
 background-color: #d3dce6;
 }
+
+.banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+.mv-container {
+    display: flex;
+    flex-direction: row;  /* 确保子项水平排列 */
+    overflow-x: auto;     /* 超出部分可滚动 */
+    white-space: nowrap;  /* 防止换行 */
+    gap: 20px;            /* 每个 MV 之间的间距 */
+    padding: 10px;
+    width: 100%;  
+}
+ 
+ .mv-item {
+    list-style: none;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .mv-image {
+    width: 300px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .mv-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+ 
+
+  .playlist-container {
+    display: flex;
+    flex-direction: row;  
+    gap: 20px;            
+    padding: 10px;
+    width: 100%;  
+}
+ 
+ .playlist-item {
+    list-style: none;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .playlist-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .playlist-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+  }

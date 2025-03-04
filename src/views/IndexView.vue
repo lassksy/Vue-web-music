@@ -26,7 +26,8 @@
     .common-layout {
       display: flex;
       flex-direction: column;
-      height: 100vh; /* 占据整个视口高度 */
+      height: 100vh; 
+      width: calc(100% - 260px);
 
     }
     .el-header {
@@ -36,6 +37,7 @@
     }
     .el-main {
       margin-left: 300px;
+      width: 100%;
     }
     .el-aside {
       width: auto;
